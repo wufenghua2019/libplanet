@@ -81,6 +81,8 @@ namespace Libplanet.Tests.Net.Protocols
 
         public IEnumerable<BoundPeer> Peers => Protocol.Peers;
 
+        public DateTimeOffset LastMessageTimestamp { get; private set; }
+
         internal ConcurrentBag<Message> ReceivedMessages { get; }
 
         internal IProtocol Protocol { get; }
@@ -342,6 +344,7 @@ namespace Libplanet.Tests.Net.Protocols
                     "Received reply {Reply} of message with identity {identity}.",
                     reply,
                     message.Identity);
+                LastMessageTimestamp = DateTimeOffset.UtcNow;
                 ReceivedMessages.Add(reply);
                 Protocol.ReceiveMessage(reply);
                 MessageReceived.Set();
@@ -455,6 +458,7 @@ namespace Libplanet.Tests.Net.Protocols
                 });
             }
 
+            LastMessageTimestamp = DateTimeOffset.UtcNow;
             ReceivedMessages.Add(message);
             Protocol.ReceiveMessage(message);
             MessageReceived.Set();

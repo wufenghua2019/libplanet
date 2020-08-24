@@ -182,6 +182,8 @@ namespace Libplanet.Net
 
         public IEnumerable<BoundPeer> Peers => Protocol.Peers;
 
+        public DateTimeOffset LastMessageTimestamp { get; private set; }
+
         /// <summary>
         /// Whether this <see cref="NetMQTransport"/> instance is running.
         /// </summary>
@@ -583,6 +585,8 @@ namespace Libplanet.Net
                     {
                         ValidateSender(message.Remote);
                     }
+
+                    LastMessageTimestamp = DateTimeOffset.UtcNow;
 
                     try
                     {
