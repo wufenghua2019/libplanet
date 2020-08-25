@@ -239,6 +239,7 @@ namespace Libplanet.Net
 
         public void Dispose()
         {
+            _workerCancellationTokenSource?.Cancel();
             Transport.Dispose();
         }
 
@@ -254,7 +255,6 @@ namespace Libplanet.Net
             CancellationToken cancellationToken = default(CancellationToken)
         )
         {
-            _workerCancellationTokenSource?.Cancel();
             _logger.Debug($"Stopping {nameof(Swarm<T>)}...");
             using (await _runningMutex.LockAsync())
             {
